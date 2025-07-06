@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],      // include DOM libs
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // **Important JSX settings**
+    "jsx": "react-jsx",                             // use React 17+ new transform
+    "jsxImportSource": "react"                      // in case you use the automatic JSX runtime
+
+    // no need to explicitly list "types" here (it will pick up @types/react & @types/react-dom)
+  },
+  "include": ["src"]                                // make sure only your source folder is included
+}

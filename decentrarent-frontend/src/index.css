@@ -1,0 +1,77 @@
+/* src/index.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #eef2f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: #fff;
+  padding: 2.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  width: 360px;
+  text-align: center;
+}
+
+.logo {
+  width: 120px;
+  display: block;
+  margin: 0 auto 1rem;
+}
+
+h2 {
+  margin: 0 0 1.5rem;
+  letter-spacing: 0.5px;
+}
+
+.role-select {
+  display: flex;
+  margin-bottom: 1.5rem;
+}
+
+.role-select button {
+  flex: 1;
+  margin: 0 0.25rem;
+  padding: 0.75rem;
+  border: none;
+  background: #ddd;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.role-select button.active,
+.role-select button:hover {
+  background: #007bff;
+  color: #fff;
+}
+
+.form-button {
+  width: 100%;
+  padding: 0.75rem;
+  background: #28a745;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  color: white;
+  transition: background 0.2s;
+}
+
+.form-button:hover {
+  background: #218838;
+}
+
+.error {
+  color: #d9534f;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}

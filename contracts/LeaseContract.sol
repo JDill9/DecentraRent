@@ -17,6 +17,9 @@ contract LeaseContract {
     // Tracks whether the lease is active (true) or terminated (false)
     bool public isActive;
 
+    /// New: Rent payment event for receipts
+    event RentPaid(address indexed tenant, uint256 amount, uint256 timestamp);
+
     /// @notice Deploys a new LeaseContract
     /// @param _rent The rent amount in wei (e.g., 0.01 ETH = 10000000000000000 wei)
     /// @param _tenant The Ethereum address of the tenant
@@ -39,6 +42,9 @@ contract LeaseContract {
 
         // Transfer the rent payment to the landlord’s address
         payable(landlord).transfer(msg.value);
+
+        /// New - Emit event after successful payment
+        emit RentPaid(msg.sender, msg.value, block.timestamp);
     }
 
     /// @notice Terminate the lease agreement

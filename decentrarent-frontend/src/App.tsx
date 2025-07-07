@@ -10,7 +10,7 @@ import { LandlordDashboard } from "./components/LandlordDashboard";
 // NEW IMPORTS
 import { GoogleLogin } from "./components/GoogleLogin";
 import { LeasePage } from "./components/LeasePage";
-import { ReceiptsViewer } from "./components/Receipts";
+import { ReceiptsViewer } from "./components/ReceiptsViewer";
 import { LoginForm } from "./components/LoginForm";
 import { CreateAccount } from "./components/CreateAccount";
 import Payments from "./components/Payments";

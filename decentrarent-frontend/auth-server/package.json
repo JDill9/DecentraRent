@@ -1,9 +1,10 @@
 {
   "name": "auth-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simple Express auth server for DecentraRent",
   "main": "index.js",
   "scripts": {
+    "start": "node index.cjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

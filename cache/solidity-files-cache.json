@@ -1,0 +1,41 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "C:\\Users\\Justin Dill\\Documents\\College\\Towson\\2025\\Summer_2025\\Cryptocurrencies_Blockchain\\Project\\DecentraRent-1\\contracts\\LeaseContract.sol": {
+      "lastModificationDate": 1751909732587,
+      "contentHash": "3b781abc0144cac9c181ce3e85b75b3c",
+      "sourceName": "contracts/LeaseContract.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "LeaseContract"
+      ]
+    }
+  }
+}

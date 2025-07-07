@@ -87,14 +87,13 @@ npm install
 Then install the frontend dependencies:
 
 ```bash
-cd decentrarent-auth-servers
+cd decentrarent-frontend
 npm install
 ```
 
 ```bash
-cd decentrarent-frontend
+cd decentrarent-auth-servers
 npm install
-cd ..
 ```
 
 ---

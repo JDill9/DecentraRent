@@ -5,6 +5,7 @@ import {
   createContext,
   useContext,
   useState,
+  useEffect,
   type ReactNode, // type-only import for the children prop
 } from "react";
 
@@ -36,14 +37,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Initialize state: not logged in
   const [state, setState] = useState<AuthState>({ isLoggedIn: false });
 
+  // ✅ Restore saved login from localStorage on mount
+  useEffect(() => {
+    const stored = localStorage.getItem("auth");
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        if (parsed.wallet && parsed.role) {
+          setState({ isLoggedIn: true, ...parsed });
+        }
+      } catch (err) {
+        console.warn("Failed to parse stored login:", err);
+      }
+    }
+  }, []);
+
   // login() updates state to include the user’s role, email, and wallet
   const login = (role: Role, email: string, wallet: string) => {
-    setState({ isLoggedIn: true, role, email, wallet });
+    const next = { isLoggedIn: true, role, email, wallet };
+    setState(next);
+    localStorage.setItem("auth", JSON.stringify(next)); // Save to localStorage
   };
 
   // logout() resets state back to “not logged in”
   const logout = () => {
     setState({ isLoggedIn: false });
+    localStorage.removeItem("auth"); // Clear localStorage on logout
   };
 
   return (

@@ -41,12 +41,16 @@ export function Login() {
       const wallet = await signer.getAddress();
 
       // NEW: Redirect to the form login page with role & wallet
+    if (wallet && role) {
       nav(`/login-form?role=${role}&wallet=${wallet}`);
-    } catch (err: any) {
-      console.error("Login error:", err);
-      setError("Could not connect wallet. Please try again.");
+    } else {
+      setError("Missing role or wallet info.");
     }
-  };
+  } catch (err: any) {
+    console.error("Login error:", err);
+    setError("Could not connect wallet. Please try again.");
+  }
+};
 
   // —————————————————————————————————————————————————————————————————————————————————
   // Render

@@ -12,6 +12,7 @@ import { GoogleLogin } from "./components/GoogleLogin";
 import { LeasePage } from "./components/LeasePage";
 import { ReceiptsViewer } from "./components/Receipts";
 import { LoginForm } from "./components/LoginForm";
+import { CreateAccount } from "./components/CreateAccount";
 
 function PrivateRoute({
   children,
@@ -40,6 +41,8 @@ export default function App() {
       <Route path="/login" element={<Login />} />
 
       <Route path="/login-form" element={<LoginForm />} />
+
+      <Route path="/create-account" element={<CreateAccount />} />
 
       {/* Public Google login route */}
       <Route path="/google-login" element={<GoogleLogin />} />

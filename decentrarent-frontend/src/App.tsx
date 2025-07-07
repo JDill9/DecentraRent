@@ -11,7 +11,6 @@ import { LandlordDashboard } from "./components/LandlordDashboard";
 import { GoogleLogin } from "./components/GoogleLogin";
 import { LeasePage } from "./components/LeasePage";
 import { ReceiptsViewer } from "./components/Receipts";
-import { LoginForm } from "./components/LoginForm";
 
 function PrivateRoute({
   children,
@@ -38,8 +37,6 @@ export default function App() {
     <Routes>
       {/* Public login page */}
       <Route path="/login" element={<Login />} />
-
-      <Route path="/login-form" element={<LoginForm />} />
 
       {/* Public Google login route */}
       <Route path="/google-login" element={<GoogleLogin />} />

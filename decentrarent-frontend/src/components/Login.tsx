@@ -21,28 +21,25 @@ export function Login() {
   const handleWalletConnect = async () => {
     setError("");
 
-    // 1) Ensure MetaMask is available
     if (!(window as any).ethereum) {
       setError("MetaMask is not installed");
       return;
     }
 
     try {
-      // 2) Request wallet access
       await (window as any).ethereum.request({
         method: "eth_requestAccounts",
       });
 
-      // 3) Use ethers.js to get the wallet address
       const provider = new ethers.BrowserProvider((window as any).ethereum);
       const signer = await provider.getSigner();
       const wallet = await signer.getAddress();
 
-      // 4) Redirect to login form with wallet + role in query
+      // Redirect to form page with wallet and role in URL
       nav(`/login-form?wallet=${wallet}&role=${role}`);
     } catch (err: any) {
-      console.error("MetaMask login error:", err);
-      setError("Could not connect to MetaMask. Please try again.");
+      console.error("MetaMask error:", err);
+      setError("Could not connect wallet. Please try again.");
     }
   };
 
@@ -61,7 +58,7 @@ export function Login() {
 
       <h2>DecentraRent Login</h2>
 
-      {/* Role selection buttons */}
+      {/* Role selector */}
       <div className="role-select" style={{ margin: "1rem 0" }}>
         <button
           className={role === "tenant" ? "active" : ""}
@@ -84,12 +81,11 @@ export function Login() {
         </button>
       </div>
 
-      {/* Wallet connect button */}
+      {/* Connect button */}
       <button className="form-button" onClick={handleWalletConnect}>
         Connect Wallet &amp; Continue
       </button>
 
-      {/* Error message */}
       {error && <p className="error">{error}</p>}
     </div>
   );

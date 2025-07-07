@@ -4,23 +4,18 @@ import { useNavigate } from "react-router-dom";
 
 export function Login() {
   const [role, setRole] = useState<"tenant" | "landlord">("tenant");
-  const [error, setError] = useState<string>("");
-
+  const [error, setError] = useState("");
   const nav = useNavigate();
 
   const handleLogin = async () => {
     setError("");
-
     if (!(window as any).ethereum) {
       setError("MetaMask is not installed");
       return;
     }
 
     try {
-      await (window as any).ethereum.request({
-        method: "eth_requestAccounts",
-      });
-
+      await (window as any).ethereum.request({ method: "eth_requestAccounts" });
       const provider = new ethers.BrowserProvider((window as any).ethereum);
       const signer = await provider.getSigner();
       const wallet = await signer.getAddress();
@@ -28,85 +23,38 @@ export function Login() {
       nav(`/login-form?role=${role}&wallet=${wallet}`);
     } catch (err: any) {
       console.error("Login error:", err);
-      setError("Could not connect wallet. Please try again.");
+      setError("Could not connect wallet.");
     }
   };
 
   return (
-    <div
-      className="container"
-      style={{
-        textAlign: "center",
-        marginTop: "10vh",
-        fontFamily: "Arial, sans-serif",
-      }}
-    >
+    <div style={{ textAlign: "center", marginTop: "10vh" }}>
       <img
         src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"
-        alt="DecentraRent Logo"
-        style={{ width: "120px", marginBottom: "2rem" }}
+        alt="React Logo"
+        style={{ width: "100px", marginBottom: "1rem" }}
       />
-
       <h2>DecentraRent Login</h2>
 
-      <div className="role-select" style={{ margin: "1.5rem 0" }}>
-        <button
-          onClick={() => {
-            setRole("tenant");
-            setError("");
-          }}
-          style={{
-            padding: "0.7rem 1.5rem",
-            marginRight: "1rem",
-            fontSize: "1rem",
-            backgroundColor: "#007BFF",
-            color: "#fff",
-            border: "none",
-            borderRadius: "6px",
-            cursor: "pointer",
-          }}
-        >
-          Tenant
-        </button>
-        <button
-          onClick={() => {
-            setRole("landlord");
-            setError("");
-          }}
-          style={{
-            padding: "0.7rem 1.5rem",
-            fontSize: "1rem",
-            backgroundColor: "#007BFF",
-            color: "#fff",
-            border: "none",
-            borderRadius: "6px",
-            cursor: "pointer",
-          }}
-        >
-          Landlord
-        </button>
-      </div>
-
       <button
-        onClick={handleLogin}
-        style={{
-          padding: "0.8rem 2rem",
-          fontSize: "1.1rem",
-          backgroundColor: "#28a745",
-          color: "#fff",
-          border: "none",
-          borderRadius: "6px",
-          cursor: "pointer",
-        }}
+        onClick={() => setRole("tenant")}
+        style={{ backgroundColor: role === "tenant" ? "#007BFF" : "#ccc", margin: "0.5rem" }}
       >
-        Connect Wallet &amp; Login as {role.charAt(0).toUpperCase() + role.slice(1)}
+        Tenant
+      </button>
+      <button
+        onClick={() => setRole("landlord")}
+        style={{ backgroundColor: role === "landlord" ? "#007BFF" : "#ccc", margin: "0.5rem" }}
+      >
+        Landlord
       </button>
 
-      {error && (
-        <p style={{ color: "red", marginTop: "1rem", fontWeight: "bold" }}>
-          {error}
-        </p>
-      )}
+      <br />
+      <button onClick={handleLogin} style={{ marginTop: "1rem", backgroundColor: "#28a745" }}>
+        Connect Wallet & Login as {role}
+      </button>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 }

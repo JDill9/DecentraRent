@@ -1,77 +1,65 @@
-import { createContext, useContext, useEffect, useState } from "react";
+// src/context/AuthContext.tsx
 
-// Export Role type
+// We're using React’s createContext + hooks to manage global auth state
+import {
+  createContext,
+  useContext,
+  useState,
+  type ReactNode, // type-only import for the children prop
+} from "react";
+
+// Define the two roles our app supports
 export type Role = "tenant" | "landlord";
 
-interface AuthContextType {
-  isLoggedIn: boolean;
-  wallet: string;
-  role: Role | null;
-  username: string;
-  login: (
-    role: Role,
-    displayName: string,
-    wallet: string,
-    username?: string
-  ) => void;
+// Shape of the authentication state we store
+interface AuthState {
+  isLoggedIn: boolean;   // whether the user is authenticated
+  role?: Role;           // the user’s role, once logged in
+  email?: string;        // email (we're using wallet as id, but left here for flexibility)
+  wallet?: string;       // connected MetaMask address
+  uid?: string;
+}
+
+// Extend AuthState with the actions we need
+interface AuthContextType extends AuthState {
+  // Call this to mark the user as logged in
+  login: (role: Role, email: string, wallet: string) => void;
+  // Call this to log out (clear everything)
   logout: () => void;
 }
 
+// Create the context; default is undefined so we can enforce usage within a provider
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [wallet, setWallet] = useState("");
-  const [role, setRole] = useState<Role | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
+// Provider component that wraps your app and makes auth state available via context
+export function AuthProvider({ children }: { children: ReactNode }) {
+  // Initialize state: not logged in
+  const [state, setState] = useState<AuthState>({ isLoggedIn: false });
 
-  useEffect(() => {
-    const stored = localStorage.getItem("auth");
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      setWallet(parsed.wallet);
-      setRole(parsed.role);
-      setUsername(parsed.username);
-      setIsLoggedIn(true);
-    }
-  }, []);
-
-  const login = (
-    role: Role,
-    displayName: string,
-    wallet: string,
-    usernameOverride?: string
-  ) => {
-    const finalUsername = usernameOverride || displayName;
-    setWallet(wallet);
-    setRole(role);
-    setUsername(finalUsername);
-    setIsLoggedIn(true);
-    localStorage.setItem(
-      "auth",
-      JSON.stringify({ wallet, role, username: finalUsername })
-    );
+  // login() updates state to include the user’s role, email, and wallet
+  const login = (role: Role, email: string, wallet: string) => {
+    setState({ isLoggedIn: true, role, email, wallet });
   };
 
+  // logout() resets state back to “not logged in”
   const logout = () => {
-    setWallet("");
-    setRole(null);
-    setUsername("");
-    setIsLoggedIn(false);
-    localStorage.removeItem("auth");
+    setState({ isLoggedIn: false });
   };
 
   return (
-    <AuthContext.Provider
-      value={{ isLoggedIn, wallet, role, login, logout, username }}
-    >
+    // Expose both state and actions to all consumers
+    <AuthContext.Provider value={{ ...state, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 }
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth must be used within AuthProvider");
-  return context;
-};
+// Custom hook for ease of use in components
+export function useAuth() {
+  const ctx = useContext(AuthContext);
+  if (!ctx) {
+    // This enforces that useAuth must be used inside <AuthProvider>
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return ctx;
+}

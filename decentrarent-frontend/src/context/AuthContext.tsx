@@ -1,7 +1,6 @@
 // src/context/AuthContext.tsx
 
 import { createContext, useContext, useEffect, useState } from "react";
-export type Role = "tenant" | "landlord";
 
 interface AuthContextType {
   isLoggedIn: boolean;

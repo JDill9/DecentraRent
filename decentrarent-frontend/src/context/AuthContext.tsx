@@ -26,6 +26,7 @@ interface AuthContextType extends AuthState {
   login: (role: Role, email: string, wallet: string, username?: string) => void;
   // Call this to log out (clear everything)
   logout: () => void;
+  user?: { email?: string; wallet?: string; uid?: string } | null;
 }
 
 // Create the context; default is undefined so we can enforce usage within a provider
@@ -48,7 +49,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     // Expose both state and actions to all consumers
-    <AuthContext.Provider value={{ ...state, login, logout }}>
+    <AuthContext.Provider value={{ 
+      ...state, 
+      login, 
+      logout,
+      user: state.email ? { email: state.email, wallet: state.wallet, uid: state.uid } : null,
+      }}>
       {children}
     </AuthContext.Provider>
   );

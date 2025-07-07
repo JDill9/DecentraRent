@@ -62,11 +62,11 @@ export function Login() {
       }}
     >
       {/* Logo */}
-<img
-  src="/logo.svg"
-  alt="DecentraRent Logo"
-  style={{ width: "120px", marginBottom: "2rem" }}
-/>
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"
+        alt="DecentraRent Logo"
+        style={{ width: "120px", marginBottom: "2rem" }}
+      />
 
       <h2>DecentraRent Login</h2>
 

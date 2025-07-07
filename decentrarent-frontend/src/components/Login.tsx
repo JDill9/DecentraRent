@@ -129,6 +129,16 @@ export function Login() {
         {role.charAt(0).toUpperCase() + role.slice(1)}
       </button>
 
+      <p style={{ marginTop: "1.5rem" }}>
+  Don’t have an account?{" "}
+  <a
+    href={`/create-account?role=${role}&wallet=`}
+    style={{ color: "#007BFF", textDecoration: "underline" }}
+  >
+    Create one
+  </a>
+</p>
+
       {/* Error display */}
       {error && (
         <p

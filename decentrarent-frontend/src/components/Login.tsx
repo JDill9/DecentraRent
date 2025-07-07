@@ -12,33 +12,38 @@ export function Login() {
   const [role, setRole] = useState<"tenant" | "landlord">("tenant");
   const [error, setError] = useState<string>("");
 
-  const nav = useNavigate(); // For redirecting after wallet connect
+  const nav = useNavigate(); // for redirecting after wallet connect
 
   // —————————————————————————————————————————————————————————————————————————————————
-  // Main login handler
+  // Main login function
   // —————————————————————————————————————————————————————————————————————————————————
 
-  const handleWalletConnect = async () => {
+  const handleLogin = async () => {
     setError("");
 
+    // 1) Check MetaMask availability
     if (!(window as any).ethereum) {
       setError("MetaMask is not installed");
       return;
     }
 
     try {
+      // 2) Prompt MetaMask to connect
       await (window as any).ethereum.request({
         method: "eth_requestAccounts",
       });
 
+      // 3) Wrap provider & signer via ethers.js
       const provider = new ethers.BrowserProvider((window as any).ethereum);
       const signer = await provider.getSigner();
+
+      // 4) Grab the connected wallet address
       const wallet = await signer.getAddress();
 
-      // Redirect to form page with wallet and role in URL
-      nav(`/login-form?wallet=${wallet}&role=${role}`);
+      // NEW: Redirect to the form login page with role & wallet
+      nav(`/login-form?role=${role}&wallet=${wallet}`);
     } catch (err: any) {
-      console.error("MetaMask error:", err);
+      console.error("Login error:", err);
       setError("Could not connect wallet. Please try again.");
     }
   };
@@ -48,25 +53,41 @@ export function Login() {
   // —————————————————————————————————————————————————————————————————————————————————
 
   return (
-    <div className="container" style={{ textAlign: "center", marginTop: "10vh" }}>
+    <div
+      className="container"
+      style={{
+        textAlign: "center",
+        marginTop: "10vh",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
       {/* Logo */}
       <img
-        src="/logo.png"
-        alt="DecentraRent"
-        style={{ width: "200px", marginBottom: "2rem" }}
+        src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"
+        alt="DecentraRent Logo"
+        style={{ width: "120px", marginBottom: "2rem" }}
       />
 
       <h2>DecentraRent Login</h2>
 
-      {/* Role selector */}
-      <div className="role-select" style={{ margin: "1rem 0" }}>
+      {/* Role toggle */}
+      <div className="role-select" style={{ margin: "1.5rem 0" }}>
         <button
           className={role === "tenant" ? "active" : ""}
           onClick={() => {
             setRole("tenant");
             setError("");
           }}
-          style={{ marginRight: "1rem" }}
+          style={{
+            padding: "0.7rem 1.5rem",
+            marginRight: "1rem",
+            fontSize: "1rem",
+            backgroundColor: "#007BFF",
+            color: "#fff",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer",
+          }}
         >
           Tenant
         </button>
@@ -76,17 +97,47 @@ export function Login() {
             setRole("landlord");
             setError("");
           }}
+          style={{
+            padding: "0.7rem 1.5rem",
+            fontSize: "1rem",
+            backgroundColor: "#007BFF",
+            color: "#fff",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer",
+          }}
         >
           Landlord
         </button>
       </div>
 
-      {/* Connect button */}
-      <button className="form-button" onClick={handleWalletConnect}>
-        Connect Wallet &amp; Continue
+      {/* Single button for wallet‐based login */}
+      <button
+        className="form-button"
+        onClick={handleLogin}
+        style={{
+          padding: "0.8rem 2rem",
+          fontSize: "1.1rem",
+          backgroundColor: "#28a745",
+          color: "#fff",
+          border: "none",
+          borderRadius: "6px",
+          cursor: "pointer",
+        }}
+      >
+        Connect Wallet &amp; Login as{" "}
+        {role.charAt(0).toUpperCase() + role.slice(1)}
       </button>
 
-      {error && <p className="error">{error}</p>}
+      {/* Error display */}
+      {error && (
+        <p
+          className="error"
+          style={{ color: "red", marginTop: "1rem", fontWeight: "bold" }}
+        >
+          {error}
+        </p>
+      )}
     </div>
   );
 }

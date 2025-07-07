@@ -80,10 +80,16 @@ DecentraRent/
 At the **repo root**, install the blockchain‐side dependencies:
 
 ```bash
+cd decentrarent-main
 npm install
 ```
 
 Then install the frontend dependencies:
+
+```bash
+cd decentrarent-auth-servers
+npm install
+```
 
 ```bash
 cd decentrarent-frontend

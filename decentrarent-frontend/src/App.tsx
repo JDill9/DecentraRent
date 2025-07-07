@@ -13,6 +13,13 @@ import { LeasePage } from "./components/LeasePage";
 import { ReceiptsViewer } from "./components/Receipts";
 import { LoginForm } from "./components/LoginForm";
 import { CreateAccount } from "./components/CreateAccount";
+import Payments from "./components/Payments";
+import MyLeases from "./components/MyLeases"; 
+import Properties from "./components/Properties";
+import Account from "./components/Account";
+import Support from "./components/Support";
+import About from "./components/About";
+import { Navbar } from "./components/Navbar";
 
 function PrivateRoute({
   children,
@@ -35,46 +42,51 @@ function PrivateRoute({
 }
 
 export default function App() {
+  const { isLoggedIn } = useAuth(); // Access auth state to conditionally show navbar
+
   return (
-    <Routes>
-      {/* Public login page */}
-      <Route path="/login" element={<Login />} />
+    <>
+      {/* Navbar appears on top for authenticated users */}
+      {isLoggedIn && <Navbar />}
 
-      <Route path="/login-form" element={<LoginForm />} />
+      <Routes>
+        {/* Public routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/login-form" element={<LoginForm />} />
+        <Route path="/create-account" element={<CreateAccount />} />
+        <Route path="/google-login" element={<GoogleLogin />} />
+        <Route path="/leases" element={<LeasePage />} />
+        <Route path="/receipts" element={<ReceiptsViewer />} />
 
-      <Route path="/create-account" element={<CreateAccount />} />
+        {/* General authenticated pages (Navbar visible if isLoggedIn is true) */}
+        <Route path="/payments" element={<Payments />} />
+        <Route path="/myleases" element={<MyLeases />} /> 
+        <Route path="/properties" element={<Properties />} />
+        <Route path="/account" element={<Account />} />
+        <Route path="/support" element={<Support />} />
+        <Route path="/about" element={<About />} />
 
-      {/* Public Google login route */}
-      <Route path="/google-login" element={<GoogleLogin />} />
+        {/* Role-specific dashboards */}
+        <Route
+          path="/tenant"
+          element={
+            <PrivateRoute allowedRole="tenant">
+              <TenantDashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/landlord"
+          element={
+            <PrivateRoute allowedRole="landlord">
+              <LandlordDashboard />
+            </PrivateRoute>
+          }
+        />
 
-      {/* Public Lease viewer route */}
-      <Route path="/leases" element={<LeasePage />} />
-
-      {/* Public Receipt viewer route */}
-      <Route path="/receipts" element={<ReceiptsViewer />} />
-
-      {/* Tenant-only dashboard */}
-      <Route
-        path="/tenant"
-        element={
-          <PrivateRoute allowedRole="tenant">
-            <TenantDashboard />
-          </PrivateRoute>
-        }
-      />
-
-      {/* Landlord-only dashboard */}
-      <Route
-        path="/landlord"
-        element={
-          <PrivateRoute allowedRole="landlord">
-            <LandlordDashboard />
-          </PrivateRoute>
-        }
-      />
-
-      {/* Catch-all: redirect unknown URLs to login */}
-      <Route path="*" element={<Navigate to="/login" replace />} />
-    </Routes>
+        {/* Fallback route */}
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    </>
   );
 }

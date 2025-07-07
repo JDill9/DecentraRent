@@ -1,6 +1,6 @@
 // src/components/Login.tsx
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +15,13 @@ export function Login() {
 
   const auth = useAuth();         // our global auth context
   const nav = useNavigate();      // for redirecting after login
+
+  // ✅ NEW: Watch for login state change to trigger redirect
+  useEffect(() => {
+    if (auth.isLoggedIn && auth.role) {
+      nav(auth.role === "tenant" ? "/tenant" : "/landlord");
+    }
+  }, [auth.isLoggedIn, auth.role]);
 
   // —————————————————————————————————————————————————————————————————————————————————
   // Main login function
@@ -47,8 +54,8 @@ export function Login() {
       // 5) Store in context (we’re using wallet as both id & display)
       auth.login(role, wallet, wallet);
 
-      // 6) Redirect to the appropriate dashboard
-      nav(role === "tenant" ? "/tenant" : "/landlord");
+      // 🚫 Removed: old redirect line (now handled by useEffect)
+      // nav(role === "tenant" ? "/tenant" : "/landlord");
     } catch (err: any) {
       console.error("Login error:", err);
       setError("Could not connect wallet. Please try again.");

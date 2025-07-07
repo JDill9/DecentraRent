@@ -1,5 +1,3 @@
-// src/components/LoginForm.tsx
-
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth, Role } from "../context/AuthContext";
@@ -17,7 +15,9 @@ export function LoginForm() {
   const auth = useAuth();
   const nav = useNavigate();
 
-  const handleSubmit = () => {
+  // Add e: React.FormEvent and prevent default
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     setError("");
 
     if (!username || !email || !password) {
@@ -25,14 +25,14 @@ export function LoginForm() {
       return;
     }
 
-const users = JSON.parse(localStorage.getItem("users") || "{}");
+    const users = JSON.parse(localStorage.getItem("users") || "{}");
 
-if (users[email] && users[email].password === password) {
-  auth.login(role, email, wallet, users[email].username);
-  nav(role === "tenant" ? "/tenant" : "/landlord");
-} else {
-  setError("Invalid credentials.");
-}
+    if (users[email] && users[email].password === password) {
+      auth.login(role, email, wallet, users[email].username); // Login state set
+      nav(role === "tenant" ? "/tenant" : "/landlord");       // Redirect to dashboard
+    } else {
+      setError("Invalid credentials.");
+    }
   };
 
   useEffect(() => {
@@ -50,42 +50,43 @@ if (users[email] && users[email].password === password) {
         Wallet: <small>{wallet}</small>
       </p>
 
-      <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        style={{ display: "block", margin: "1rem auto", width: "200px" }}
-      />
+      {/* Wrap all in a form */}
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          style={{ display: "block", margin: "1rem auto", width: "200px" }}
+        />
 
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        style={{ display: "block", margin: "1rem auto", width: "200px" }}
-      />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          style={{ display: "block", margin: "1rem auto", width: "200px" }}
+        />
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        style={{ display: "block", margin: "1rem auto", width: "200px" }}
-      />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          style={{ display: "block", margin: "1rem auto", width: "200px" }}
+        />
 
-      <button onClick={handleSubmit}>Continue to Dashboard</button>
+        <button type="submit">Continue to Dashboard</button>
+      </form>
 
       {error && <p className="error">{error}</p>}
 
-<p style={{ marginTop: "1.5rem" }}>
-  Don't have an account?{" "}
-  <a href="/create-account" style={{ color: "#007BFF" }}>
-    Create one
-  </a>
-</p>
-
-
+      <p style={{ marginTop: "1.5rem" }}>
+        Don't have an account?{" "}
+        <a href="/create-account" style={{ color: "#007BFF" }}>
+          Create one
+        </a>
+      </p>
     </div>
   );
 }

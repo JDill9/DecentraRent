@@ -76,6 +76,13 @@ export function LoginForm() {
       <button onClick={handleSubmit}>Continue to Dashboard</button>
 
       {error && <p className="error">{error}</p>}
+      
+      <p style={{ marginTop: "1.5rem" }}>
+  Don't have an account?{" "}
+  <a href="/create-account" style={{ color: "#007BFF" }}>
+    Create one
+  </a>
+</p>
     </div>
   );
 }

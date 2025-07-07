@@ -19,7 +19,7 @@ import Properties from "./components/Properties";
 import Account from "./components/Account";
 import Support from "./components/Support";
 import About from "./components/About";
-import { Navbar } from "./components/Navbar";
+import Navbar from "./components/Navbar";
 
 function PrivateRoute({
   children,

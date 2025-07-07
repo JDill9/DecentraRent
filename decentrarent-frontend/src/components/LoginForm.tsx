@@ -5,17 +5,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth, Role } from "../context/AuthContext";
 
 export function LoginForm() {
-  // —————————————————————————————————————————————————————————————————————————————————
-  // Read query parameters: wallet and role
-  // —————————————————————————————————————————————————————————————————————————————————
-
   const [params] = useSearchParams();
   const wallet = params.get("wallet") ?? "";
   const role = (params.get("role") as Role) ?? "tenant";
-
-  // —————————————————————————————————————————————————————————————————————————————————
-  // Component state for form inputs
-  // —————————————————————————————————————————————————————————————————————————————————
 
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -25,51 +17,44 @@ export function LoginForm() {
   const auth = useAuth();
   const nav = useNavigate();
 
-  // —————————————————————————————————————————————————————————————————————————————————
-  // Form submission handler
-  // —————————————————————————————————————————————————————————————————————————————————
-
   const handleSubmit = () => {
     setError("");
 
-    // Validate all fields
     if (!username || !email || !password) {
       setError("All fields are required.");
       return;
     }
 
-    // Dummy login logic (you can replace with real API later)
+    // ✅ Dummy validation (replace with real backend)
     if (email === "sam@example.com" && password === "password123") {
-      auth.login(role, email, wallet); // Set context
+      auth.login(role, email, wallet); // Save to auth context
       nav(role === "tenant" ? "/tenant" : "/landlord");
     } else {
       setError("Invalid email or password.");
     }
   };
 
-  // —————————————————————————————————————————————————————————————————————————————————
-  // Redirect if wallet param is missing (no MetaMask connect happened)
-  // —————————————————————————————————————————————————————————————————————————————————
-
   useEffect(() => {
     if (!wallet) {
-      nav("/login"); // Go back if they skipped MetaMask
+      nav("/login"); // No wallet? Redirect back
     }
   }, [wallet]);
 
-  // —————————————————————————————————————————————————————————————————————————————————
-  // Render
-  // —————————————————————————————————————————————————————————————————————————————————
-
   return (
-    <div className="container">
-      <h2>Complete Login</h2>
+    <div className="container" style={{ textAlign: "center", marginTop: "10vh" }}>
+      <h2>Complete Your Login</h2>
+
+      <p>
+        Role: <strong>{role}</strong> <br />
+        Wallet: <small>{wallet}</small>
+      </p>
 
       <input
         type="text"
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
+        style={{ display: "block", margin: "1rem auto", width: "200px" }}
       />
 
       <input
@@ -77,6 +62,7 @@ export function LoginForm() {
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        style={{ display: "block", margin: "1rem auto", width: "200px" }}
       />
 
       <input
@@ -84,13 +70,11 @@ export function LoginForm() {
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        style={{ display: "block", margin: "1rem auto", width: "200px" }}
       />
 
-      <button className="form-button" onClick={handleSubmit}>
-        Continue to Dashboard
-      </button>
+      <button onClick={handleSubmit}>Continue to Dashboard</button>
 
-      {/* Show any login errors */}
       {error && <p className="error">{error}</p>}
     </div>
   );

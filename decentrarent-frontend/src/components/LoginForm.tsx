@@ -17,23 +17,23 @@ export function LoginForm() {
 
   const handleSubmit = () => {
     setError("");
+
     if (!username || !email || !password) {
       setError("All fields are required.");
       return;
     }
 
-    // Dummy auth check
     if (email === "sam@example.com" && password === "password123") {
       auth.login(role, email, wallet, username);
       nav(role === "tenant" ? "/tenant" : "/landlord");
     } else {
-      setError("Invalid credentials.");
+      setError("Invalid email or password.");
     }
   };
 
   useEffect(() => {
     if (!wallet) {
-      nav("/login"); // Go back if no wallet
+      nav("/login");
     }
   }, [wallet]);
 
@@ -41,31 +41,38 @@ export function LoginForm() {
     <div className="container" style={{ textAlign: "center", marginTop: "10vh" }}>
       <h2>Complete Your Login</h2>
 
+      <p>
+        Role: <strong>{role}</strong> <br />
+        Wallet: <small>{wallet}</small>
+      </p>
+
       <input
         type="text"
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        style={{ margin: "0.5rem", padding: "0.5rem" }}
+        style={{ display: "block", margin: "1rem auto", width: "200px" }}
       />
+
       <input
         type="email"
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        style={{ margin: "0.5rem", padding: "0.5rem" }}
+        style={{ display: "block", margin: "1rem auto", width: "200px" }}
       />
+
       <input
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        style={{ margin: "0.5rem", padding: "0.5rem" }}
+        style={{ display: "block", margin: "1rem auto", width: "200px" }}
       />
 
       <button onClick={handleSubmit}>Continue to Dashboard</button>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="error">{error}</p>}
     </div>
   );
 }

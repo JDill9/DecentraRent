@@ -34,9 +34,7 @@ export function Login() {
       });
 
       // 3) Wrap provider & signer via ethers.js
-      const provider = new ethers.BrowserProvider(
-        (window as any).ethereum
-      );
+      const provider = new ethers.BrowserProvider((window as any).ethereum);
       const signer = await provider.getSigner();
 
       // 4) Grab the connected wallet address
@@ -55,18 +53,25 @@ export function Login() {
   // —————————————————————————————————————————————————————————————————————————————————
 
   return (
-    <div className="container" style={{ textAlign: "center", marginTop: "10vh" }}>
+    <div
+      className="container"
+      style={{
+        textAlign: "center",
+        marginTop: "10vh",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
       {/* Logo */}
       <img
-        src="/logo192.png" // React default logo
-        alt="DecentraRent"
+        src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"
+        alt="DecentraRent Logo"
         style={{ width: "120px", marginBottom: "2rem" }}
       />
 
       <h2>DecentraRent Login</h2>
 
       {/* Role toggle */}
-      <div className="role-select" style={{ margin: "1rem 0" }}>
+      <div className="role-select" style={{ margin: "1.5rem 0" }}>
         <button
           className={role === "tenant" ? "active" : ""}
           onClick={() => {
@@ -74,13 +79,13 @@ export function Login() {
             setError("");
           }}
           style={{
+            padding: "0.7rem 1.5rem",
             marginRight: "1rem",
-            backgroundColor: "#007bff",
+            fontSize: "1rem",
+            backgroundColor: "#007BFF",
             color: "#fff",
-            padding: "10px 20px",
-            fontSize: "16px",
-            borderRadius: "8px",
             border: "none",
+            borderRadius: "6px",
             cursor: "pointer",
           }}
         >
@@ -93,12 +98,12 @@ export function Login() {
             setError("");
           }}
           style={{
-            backgroundColor: "#007bff",
+            padding: "0.7rem 1.5rem",
+            fontSize: "1rem",
+            backgroundColor: "#007BFF",
             color: "#fff",
-            padding: "10px 20px",
-            fontSize: "16px",
-            borderRadius: "8px",
             border: "none",
+            borderRadius: "6px",
             cursor: "pointer",
           }}
         >
@@ -106,25 +111,33 @@ export function Login() {
         </button>
       </div>
 
-      {/* Connect wallet button */}
+      {/* Single button for wallet‐based login */}
       <button
         className="form-button"
         onClick={handleLogin}
         style={{
+          padding: "0.8rem 2rem",
+          fontSize: "1.1rem",
           backgroundColor: "#28a745",
           color: "#fff",
-          padding: "12px 30px",
-          fontSize: "18px",
-          borderRadius: "10px",
           border: "none",
+          borderRadius: "6px",
           cursor: "pointer",
         }}
       >
-        Connect Wallet &amp; Continue
+        Connect Wallet &amp; Login as{" "}
+        {role.charAt(0).toUpperCase() + role.slice(1)}
       </button>
 
       {/* Error display */}
-      {error && <p className="error">{error}</p>}
+      {error && (
+        <p
+          className="error"
+          style={{ color: "red", marginTop: "1rem", fontWeight: "bold" }}
+        >
+          {error}
+        </p>
+      )}
     </div>
   );
 }

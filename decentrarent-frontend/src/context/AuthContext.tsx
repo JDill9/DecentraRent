@@ -1,15 +1,15 @@
-// src/context/AuthContext.tsx
-
 import { createContext, useContext, useEffect, useState } from "react";
+
+// Export Role type
 export type Role = "tenant" | "landlord";
 
 interface AuthContextType {
   isLoggedIn: boolean;
   wallet: string;
-  role: "tenant" | "landlord" | null;
+  role: Role | null;
   username: string;
   login: (
-    role: "tenant" | "landlord",
+    role: Role,
     displayName: string,
     wallet: string,
     username?: string
@@ -21,7 +21,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [wallet, setWallet] = useState("");
-  const [role, setRole] = useState<"tenant" | "landlord" | null>(null);
+  const [role, setRole] = useState<Role | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
 
@@ -37,7 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = (
-    role: "tenant" | "landlord",
+    role: Role,
     displayName: string,
     wallet: string,
     usernameOverride?: string

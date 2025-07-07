@@ -17,6 +17,7 @@ interface AuthState {
   role?: Role;           // the user’s role, once logged in
   email?: string;        // email (we're using wallet as id, but left here for flexibility)
   wallet?: string;       // connected MetaMask address
+  uid?: string;
 }
 
 // Extend AuthState with the actions we need

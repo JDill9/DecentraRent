@@ -23,7 +23,7 @@ interface AuthState {
 // Extend AuthState with the actions we need
 interface AuthContextType extends AuthState {
   // Call this to mark the user as logged in
-  login: (role: Role, email: string, wallet: string) => void;
+  login: (role: Role, email: string, wallet: string, username?: string) => void;
   // Call this to log out (clear everything)
   logout: () => void;
 }

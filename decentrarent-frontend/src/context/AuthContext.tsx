@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-// Export Role type
 export type Role = "tenant" | "landlord";
 
 interface AuthContextType {

@@ -1,5 +1,3 @@
-// src/components/LoginForm.tsx
-
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth, Role } from "../context/AuthContext";
@@ -25,9 +23,8 @@ export function LoginForm() {
       return;
     }
 
-    // Dummy validation (replace with real backend in production)
     if (email === "sam@example.com" && password === "password123") {
-      auth.login(role, email, wallet); // Sets auth context
+      auth.login(role, email, wallet, username);
       nav(role === "tenant" ? "/tenant" : "/landlord");
     } else {
       setError("Invalid email or password.");
@@ -36,19 +33,25 @@ export function LoginForm() {
 
   useEffect(() => {
     if (!wallet) {
-      nav("/login"); // Redirect back if no wallet param
+      nav("/login");
     }
   }, [wallet]);
 
   return (
-    <div className="container">
-      <h2>Complete Login</h2>
+    <div className="container" style={{ textAlign: "center", marginTop: "10vh" }}>
+      <h2>Complete Your Login</h2>
+
+      <p>
+        Role: <strong>{role}</strong> <br />
+        Wallet: <small>{wallet}</small>
+      </p>
 
       <input
         type="text"
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
+        style={{ display: "block", margin: "1rem auto", width: "200px" }}
       />
 
       <input
@@ -56,6 +59,7 @@ export function LoginForm() {
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        style={{ display: "block", margin: "1rem auto", width: "200px" }}
       />
 
       <input
@@ -63,11 +67,10 @@ export function LoginForm() {
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        style={{ display: "block", margin: "1rem auto", width: "200px" }}
       />
 
-      <button className="form-button" onClick={handleSubmit}>
-        Continue to Dashboard
-      </button>
+      <button onClick={handleSubmit}>Continue to Dashboard</button>
 
       {error && <p className="error">{error}</p>}
     </div>

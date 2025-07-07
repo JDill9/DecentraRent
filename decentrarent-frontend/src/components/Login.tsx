@@ -10,6 +10,7 @@ export function Login() {
   // —————————————————————————————————————————————————————————————————————————————————
 
   const [role, setRole] = useState<"tenant" | "landlord">("tenant");
+  const [wallet, setWallet] = useState<string>(""); // 🆕 Track connected wallet
   const [error, setError] = useState<string>("");
 
   const nav = useNavigate(); // for redirecting after wallet connect
@@ -38,19 +39,22 @@ export function Login() {
       const signer = await provider.getSigner();
 
       // 4) Grab the connected wallet address
-      const wallet = await signer.getAddress();
+      const walletAddress = await signer.getAddress();
+
+      // ✅ Save wallet address to state
+      setWallet(walletAddress);
 
       // NEW: Redirect to the form login page with role & wallet
-    if (wallet && role) {
-      nav(`/login-form?role=${role}&wallet=${wallet}`);
-    } else {
-      setError("Missing role or wallet info.");
+      if (walletAddress && role) {
+        nav(`/login-form?role=${role}&wallet=${walletAddress}`);
+      } else {
+        setError("Missing role or wallet info.");
+      }
+    } catch (err: any) {
+      console.error("Login error:", err);
+      setError("Could not connect wallet. Please try again.");
     }
-  } catch (err: any) {
-    console.error("Login error:", err);
-    setError("Could not connect wallet. Please try again.");
-  }
-};
+  };
 
   // —————————————————————————————————————————————————————————————————————————————————
   // Render
@@ -133,15 +137,16 @@ export function Login() {
         {role.charAt(0).toUpperCase() + role.slice(1)}
       </button>
 
+      {/* Create Account link */}
       <p style={{ marginTop: "1.5rem" }}>
-  Don’t have an account?{" "}
-  <a
-    href={`/create-account?role=${role}&wallet=`}
-    style={{ color: "#007BFF", textDecoration: "underline" }}
-  >
-    Create one
-  </a>
-</p>
+        Don’t have an account?{" "}
+        <a
+          href={`/create-account?role=${role}&wallet=${wallet}`}
+          style={{ color: "#007BFF", textDecoration: "underline" }}
+        >
+          Create one
+        </a>
+      </p>
 
       {/* Error display */}
       {error && (

@@ -1,6 +1,5 @@
 // src/App.tsx
 
-// Import React so we can use React.ReactNode
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
@@ -8,35 +7,28 @@ import { Login } from "./components/Login";
 import { TenantDashboard } from "./components/TenantDashboard";
 import { LandlordDashboard } from "./components/LandlordDashboard";
 
-/**
- * PrivateRoute:
- *  - children: any React nodes (pages/components)
- *  - allowedRole: either "tenant" or "landlord"
- *
- * Redirects to /login if:
- *  1) not logged in
- *  2) logged in but wrong role
- */
+// NEW IMPORTS
+import { GoogleLogin } from "./components/GoogleLogin";
+import { LeasePage } from "./components/LeasePage";
+import { ReceiptsViewer } from "./components/Receipts";
+
 function PrivateRoute({
   children,
   allowedRole,
 }: {
-  children: React.ReactNode;                // use React.ReactNode instead of JSX.Element
+  children: React.ReactNode;
   allowedRole: "tenant" | "landlord";
 }) {
   const auth = useAuth();
 
-  // 1) Not logged in → force login
   if (!auth.isLoggedIn) {
     return <Navigate to="/login" replace />;
   }
 
-  // 2) Wrong role → force login (or you could show a 403 page)
   if (auth.role !== allowedRole) {
     return <Navigate to="/login" replace />;
   }
 
-  // Authorized → render the page
   return <>{children}</>;
 }
 
@@ -45,6 +37,15 @@ export default function App() {
     <Routes>
       {/* Public login page */}
       <Route path="/login" element={<Login />} />
+
+      {/* Public Google login route */}
+      <Route path="/google-login" element={<GoogleLogin />} />
+
+      {/* Public Lease viewer route */}
+      <Route path="/leases" element={<LeasePage />} />
+
+      {/* Public Receipt viewer route */}
+      <Route path="/receipts" element={<ReceiptsViewer />} />
 
       {/* Tenant-only dashboard */}
       <Route

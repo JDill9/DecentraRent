@@ -20,6 +20,7 @@ import Account from "./components/Account";
 import Support from "./components/Support";
 import About from "./components/About";
 import Navbar from "./components/Navbar";
+import Checkout from "./components/Checkout"; // ✅ ADDED
 
 function PrivateRoute({
   children,
@@ -58,13 +59,14 @@ export default function App() {
         <Route path="/leases" element={<LeasePage />} />
         <Route path="/receipts" element={<ReceiptsViewer />} />
 
-        {/* General authenticated pages (Navbar visible if isLoggedIn is true) */}
+        {/* General authenticated pages */}
         <Route path="/payments" element={<Payments />} />
-        <Route path="/myleases" element={<MyLeases />} /> 
+        <Route path="/myleases" element={<MyLeases />} />
         <Route path="/properties" element={<Properties />} />
         <Route path="/account" element={<Account />} />
         <Route path="/support" element={<Support />} />
         <Route path="/about" element={<About />} />
+        <Route path="/checkout" element={<Checkout />} /> {/* ✅ NEW CHECKOUT ROUTE */}
 
         {/* Role-specific dashboards */}
         <Route

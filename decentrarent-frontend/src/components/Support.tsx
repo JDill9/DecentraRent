@@ -1,43 +1,33 @@
-import { Mail, LifeBuoy } from "lucide-react";
+// src/components/Support.tsx
 
-export default function Support() {
+import React from "react";
+
+const Support: React.FC = () => {
   return (
-    <div className="max-w-5xl mx-auto px-6 py-12">
-      <h1 className="text-4xl font-bold text-center mb-4 text-blue-700">Contact Us</h1>
-      <p className="text-center text-gray-600 mb-10">
-        Have questions about DecentraRent? Choose the option that best fits your needs below.
-      </p>
+    <div className="min-h-screen pt-24 px-4 md:px-8 lg:px-16 bg-[#f4f4f5] dark:bg-[#121212] text-gray-900 dark:text-white">
+      <div className="max-w-3xl mx-auto bg-white dark:bg-[#1e1e1e] rounded-2xl shadow-xl p-8">
+        <h1 className="text-3xl font-bold mb-6 text-center">Support</h1>
+        <p className="text-gray-700 dark:text-gray-300 mb-4">
+          Have a question or ran into an issue? We're here to help.
+        </p>
+        <ul className="list-disc list-inside space-y-2 text-sm md:text-base">
+          <li>Email us at <a href="mailto:support@decentrarent.com" className="text-blue-600 dark:text-blue-400 underline">support@decentrarent.com</a></li>
+          <li>Join our Discord for real-time help</li>
+          <li>View FAQs and walkthroughs in the Help Center</li>
+        </ul>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Get Support */}
-        <div className="bg-white border border-blue-200 rounded-xl p-6 shadow-md hover:shadow-lg transition">
-          <div className="bg-blue-100 p-3 rounded-full mb-4 inline-block">
-            <LifeBuoy className="text-blue-600 w-6 h-6" />
+        <div className="mt-6">
+          <h2 className="text-xl font-semibold mb-2">Common Topics</h2>
+          <div className="space-y-2">
+            <p>🔐 How to connect your wallet</p>
+            <p>💸 Paying rent in ETH</p>
+            <p>📄 Viewing your lease agreements</p>
+            <p>❌ How to cancel a lease</p>
           </div>
-          <h2 className="text-xl font-semibold text-blue-800 mb-2">Get Support</h2>
-          <p className="text-gray-700 mb-4">
-            Having trouble using the platform? Visit our <a href="#" className="text-blue-600 underline">Help Center</a>, or
-            join our <a href="#" className="text-blue-600 underline">community forum</a> to get advice from other users.
-          </p>
-          <a href="mailto:support@decentrarent.io" className="text-blue-600 font-medium underline">
-            support@decentrarent.io
-          </a>
-        </div>
-
-        {/* Press & Partnerships */}
-        <div className="bg-white border border-blue-200 rounded-xl p-6 shadow-md hover:shadow-lg transition">
-          <div className="bg-blue-100 p-3 rounded-full mb-4 inline-block">
-            <Mail className="text-blue-600 w-6 h-6" />
-          </div>
-          <h2 className="text-xl font-semibold text-blue-800 mb-2">Press & Partnerships</h2>
-          <p className="text-gray-700 mb-4">
-            Want to collaborate or feature DecentraRent? Reach out to our team directly for partnership or press inquiries.
-          </p>
-          <a href="mailto:press@decentrarent.io" className="text-blue-600 font-medium underline">
-            press@decentrarent.io
-          </a>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default Support;

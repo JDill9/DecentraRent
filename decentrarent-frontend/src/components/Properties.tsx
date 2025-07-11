@@ -1,31 +1,29 @@
-// src/components/Properties.tsx
-
 import React from "react";
 import { useCart } from "../context/CartContext";
+import { Property } from "../types/Property";
 
-const FIXED_ETH_PRICE = 3000; // 1 ETH = $3000
-
-const mockProperties = Array.from({ length: 20 }, (_, i) => {
-  const rentUSD = Math.floor(Math.random() * 200) + 1; // $1 - $200
-  const rentETH = rentUSD / FIXED_ETH_PRICE;
-
-  return {
-    id: i + 1,
-    name: `Property ${i + 1}`,
-    type: ["House", "Apartment", "Airbnb"][i % 3],
-    address: `${100 + i} Example Street`,
-    rentUSD,
-    rentETH,
-    status: "Available",
-  };
-});
+const mockProperties: Property[] = Array.from({ length: 20 }, (_, i) => ({
+  id: `${i + 1}`,
+  name: `Property ${i + 1}`,
+  type: ["House", "Apartment", "Airbnb"][i % 3],
+  address: `${100 + i} Example Street`,
+  rentUSD: 35 + i * 5,
+  rentETH: ((35 + i * 5) / 3000),
+  status: "Available",
+  title: `Property ${i + 1}`,
+  description: `This is a sample description for Property ${i + 1}. It is a ${
+    ["House", "Apartment", "Airbnb"][i % 3]
+  } located at ${100 + i} Example Street.`,
+  priceUSD: 35 + i * 5,
+  priceETH: ((35 + i * 5) / 3000),
+}));
 
 const Properties: React.FC = () => {
   const { addToCart } = useCart();
 
-  const handleAddToCart = (property: typeof mockProperties[0]) => {
+  const handleAddToCart = (property: Property) => {
     addToCart(property);
-    alert(`${property.name} added to cart.`);
+    alert(`${property.title} added to cart.`);
   };
 
   return (
@@ -36,6 +34,7 @@ const Properties: React.FC = () => {
           display: "grid",
           gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
           gap: "1.5rem",
+          marginTop: "2rem",
         }}
       >
         {mockProperties.map((property) => (
@@ -45,24 +44,24 @@ const Properties: React.FC = () => {
               border: "1px solid #ccc",
               borderRadius: "12px",
               padding: "1rem",
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-              backgroundColor: "#fff",
+              background: "#f9f9f9",
             }}
           >
-            <h3>{property.name}</h3>
-            <p><strong>Type:</strong> {property.type}</p>
+            <h3>{property.title}</h3>
+            <p>{property.description}</p>
             <p><strong>Address:</strong> {property.address}</p>
-            <p><strong>Rent:</strong> {property.rentETH.toFixed(4)} ETH / ${property.rentUSD.toFixed(2)} USD</p>
-            <p><strong>Status:</strong> {property.status}</p>
+            <p><strong>Type:</strong> {property.type}</p>
+            <p><strong>Price (USD):</strong> ${property.priceUSD.toFixed(2)}</p>
+            <p><strong>Price (ETH):</strong> Ξ{property.priceETH.toFixed(6)}</p>
             <button
               onClick={() => handleAddToCart(property)}
               style={{
-                marginTop: "0.5rem",
+                marginTop: "0.75rem",
                 padding: "0.5rem 1rem",
-                backgroundColor: "#007bff",
-                color: "white",
-                border: "none",
                 borderRadius: "6px",
+                backgroundColor: "#1976d2",
+                color: "#fff",
+                border: "none",
                 cursor: "pointer",
               }}
             >

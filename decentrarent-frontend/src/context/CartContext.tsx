@@ -4,6 +4,10 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 
 // Define the type of a property that can be added to the cart
 export type Property = {
+  title: string;
+  priceETH: any;
+  priceUSD: any;
+  description: string;
   id: number;
   name: string;
   type: string;

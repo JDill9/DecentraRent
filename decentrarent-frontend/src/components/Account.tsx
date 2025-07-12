@@ -1,5 +1,5 @@
 // src/components/Account.tsx
-
+import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 
 export default function Account() {
@@ -11,18 +11,20 @@ export default function Account() {
     const loadWallet = async () => {
       if (!(window as any).ethereum) return;
 
-      const provider = new (window as any).ethers.providers.Web3Provider(
-        (window as any).ethereum
-      );
+      const provider = new ethers.BrowserProvider((window as any).ethereum);
 
+try {
       const accounts = await provider.send("eth_requestAccounts", []);
       setWalletAddress(accounts[0]);
 
       const bal = await provider.getBalance(accounts[0]);
-      setBalance((window as any).ethers.utils.formatEther(bal));
+      setBalance(ethers.formatEther(bal));
 
       const net = await provider.getNetwork();
       setNetwork(net.name);
+      } catch (err) {
+  console.error("Wallet connection failed:", err);
+}
     };
 
     loadWallet();

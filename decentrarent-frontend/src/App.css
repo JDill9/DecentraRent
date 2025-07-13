@@ -1,3 +1,13 @@
+/* Fade background and global styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(135deg, #e2f0ff, #f3faff);
+  background-attachment: fixed;
+  color: #333;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -5,6 +15,7 @@
   text-align: center;
 }
 
+/* Logo styling */
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -33,10 +44,59 @@
   }
 }
 
+/* Card styling */
 .card {
   padding: 2em;
 }
 
+/* Docs link */
 .read-the-docs {
   color: #888;
+}
+
+/* Form elements */
+input {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  max-width: 300px;
+  margin: 0.5rem auto;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+/* Buttons */
+button {
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* General container */
+.container {
+  max-width: 500px;
+  margin: 5vh auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+/* Logo image override */
+img {
+  display: block;
+  margin: 0 auto 1rem auto;
+  max-width: 150px;
 }

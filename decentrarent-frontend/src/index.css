@@ -11,22 +11,22 @@ html, body, #root {
   box-sizing: inherit;
 }
 
-/* 2. BODY LAYOUT AS FLEX COLUMN */
+/* 2. BODY LAYOUT */
 body {
   display: flex;
   flex-direction: column;
-  font-family: Arial, sans-serif;
-  background: #eef2f5;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to bottom right, #A4EBC4, #d1f4e2); /* soft mint gradient */
   color: #333;
 }
 
-/* 3. LOGIN PAGE STYLES */
+/* 3. LOGIN CONTAINER */
 .container {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.98);
   padding: 2.5rem 2rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  width: 360px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  width: 380px;
   text-align: center;
   margin: auto;
   position: relative;
@@ -43,54 +43,56 @@ body {
 h2 {
   margin: 0 0 1.5rem;
   letter-spacing: 0.5px;
+  color: #4B2E83;
 }
 
+/* 4. ROLE SELECT */
 .role-select {
   display: flex;
   margin-bottom: 1.5rem;
 }
-
 .role-select button {
   flex: 1;
   margin: 0 0.25rem;
   padding: 0.75rem;
   border: none;
-  background: #ddd;
+  background: #d8f6e7;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 6px;
   font-weight: bold;
   transition: background 0.2s;
+  color: #4B2E83;
 }
-
 .role-select button.active,
 .role-select button:hover {
-  background: #007bff;
+  background: #4B2E83;
   color: #fff;
 }
 
+/* 5. FORM BUTTON */
 .form-button {
   width: 100%;
   padding: 0.75rem;
-  background: #28a745;
+  background: #4B2E83;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
   color: white;
   transition: background 0.2s;
 }
-
 .form-button:hover {
-  background: #218838;
+  background: #371f61;
 }
 
+/* 6. ERROR TEXT */
 .error {
   color: #d9534f;
   margin-top: 1rem;
   font-size: 0.9rem;
 }
 
-/* 4. NAVBAR STYLES */
+/* 7. NAVBAR */
 .navbar {
   flex: 0 0 auto;
   position: fixed;
@@ -98,26 +100,23 @@ h2 {
   left: 0;
   right: 0;
   height: 60px;
-  background: #222;
+  background: #4B2E83;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 1rem;
   z-index: 1000;
 }
-
 .nav-left {
   display: flex;
   align-items: center;
 }
-
 .nav-logo {
   color: #fff;
   text-decoration: none;
   font-size: 1.25rem;
   font-weight: bold;
 }
-
 .hamburger {
   background: none;
   border: none;
@@ -126,20 +125,17 @@ h2 {
   cursor: pointer;
   margin-left: 1rem;
 }
-
 .nav-links {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
   margin-left: 1rem;
 }
-
 .nav-right {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
-
 .nav-item {
   color: #fff;
   text-decoration: none;
@@ -147,21 +143,17 @@ h2 {
   border-radius: 4px;
   transition: background 0.2s;
 }
-
 .nav-item:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
-
 .nav-item.active {
   background-color: rgba(255, 255, 255, 0.2);
   font-weight: bold;
 }
-
 .nav-user {
   color: #fff;
   font-size: 0.9rem;
 }
-
 .nav-logout {
   background-color: #f44336;
   color: white;
@@ -171,13 +163,82 @@ h2 {
   border-radius: 4px;
 }
 
+/* 8. MAIN WRAPPER */
+.main-content {
+  flex: 1 1 auto;
+  padding-top: 60px;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.page-container {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 0;
+  box-sizing: border-box;
+}
+.dashboard-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 60px);
+  width: 100%;
+}
+.dashboard-container {
+  width: 100%;
+  max-width: 700px;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.dashboard-container input,
+.dashboard-container button {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  box-sizing: border-box;
+}
+
+/* 9. PROPERTIES */
+.properties-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+.property-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1rem;
+  background: #eefbf4;
+  color: #4B2E83;
+}
+.property-card button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  background-color: #4B2E83;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+.property-card button:hover {
+  background-color: #371f61;
+}
+
+/* 10. CART BADGE */
 .cart-link {
   position: relative;
   color: white;
   text-decoration: none;
   font-weight: bold;
 }
-
 .cart-badge {
   position: absolute;
   top: -0.6rem;
@@ -187,94 +248,4 @@ h2 {
   border-radius: 50%;
   font-size: 0.7rem;
   padding: 0.15rem 0.4rem;
-}
-
-/* 5. MAIN CONTENT FOR PROTECTED PAGES */
-.main-content {
-  flex: 1 1 auto;
-  padding-top: 60px;       /* accommodate navbar */
-  overflow: auto;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-/* 6. WIDTH CONSTRAINT FOR ALL PAGES */
-.page-container {
-  width: 100%;
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 2rem 0;
-  box-sizing: border-box;
-}
-
-/* 7. DASHBOARD-CENTER (for Tenant/Landlord & other narrow cards) */
-.dashboard-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;                       /* center vertically */
-  min-height: calc(100vh - 60px);            /* fill viewport minus navbar */
-  width: 100%;
-}
-
-/* 8. DASHBOARD CONTAINER (FORM STYLES) */
-.dashboard-container {
-  width: 100%;
-  max-width: 700px;                          /* wider to fit long wallet */
-  padding: 2rem;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.dashboard-container p {
-  word-break: break-all;                     /* wrap long strings */
-}
-
-.dashboard-container input,
-.dashboard-container button {
-  width: 100%;
-  padding: 0.5rem;
-  margin-top: 0.5rem;
-  box-sizing: border-box;
-}
-
-/* 9. PROPERTIES GRID & CARDS */
-.properties-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  padding: 1rem;
-}
-
-.property-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  padding: 1rem;
-  background: #f9f9f9;
-}
-
-.property-card h3 {
-  margin-top: 0;
-}
-
-.property-card p {
-  margin: 0.25rem 0;
-}
-
-.property-card button {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  background-color: #1976d2;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-}
-
-.property-card button:hover {
-  background-color: #155a9c;
 }

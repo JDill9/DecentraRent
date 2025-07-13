@@ -1,3 +1,4 @@
+// src/components/LoginForm.tsx
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth, Role } from "../context/AuthContext";
@@ -15,7 +16,6 @@ export function LoginForm() {
   const auth = useAuth();
   const nav = useNavigate();
 
-  // Add e: React.FormEvent and prevent default
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -28,8 +28,8 @@ export function LoginForm() {
     const users = JSON.parse(localStorage.getItem("users") || "{}");
 
     if (users[email] && users[email].password === password) {
-      auth.login(role, email, wallet, users[email].username); // Login state set
-      nav(role === "tenant" ? "/tenant" : "/landlord");       // Redirect to dashboard
+      auth.login(role, email, wallet, users[email].username);
+      nav(role === "tenant" ? "/tenant" : "/landlord");
     } else {
       setError("Invalid credentials.");
     }
@@ -37,56 +37,95 @@ export function LoginForm() {
 
   useEffect(() => {
     if (!wallet) {
-      nav("/login"); // No wallet? Redirect back
+      nav("/login");
     }
   }, [wallet]);
 
   return (
-    <div className="container" style={{ textAlign: "center", marginTop: "10vh" }}>
-      <h2>Complete Your Login</h2>
-
-      <p>
-        Role: <strong>{role}</strong> <br />
-        Wallet: <small>{wallet}</small>
-      </p>
-
-      {/* Wrap all in a form */}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          style={{ display: "block", margin: "1rem auto", width: "200px" }}
+    <div
+      className="login-bg"
+      style={{
+        background: "linear-gradient(145deg, #d2f4e0, #e8f5f8)",
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "2rem",
+      }}
+    >
+      <div
+        className="login-card"
+        style={{
+          background: "#fff",
+          borderRadius: "1rem",
+          padding: "2rem",
+          boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
+          width: "100%",
+          maxWidth: "400px",
+          textAlign: "center",
+        }}
+      >
+        <img
+          src="/Rent.logo.jpg"
+          alt="DecentraRent Logo"
+          style={{ width: "60px", marginBottom: "1rem" }}
         />
+        <h2>Complete Your Login</h2>
+        <p>
+          Role: <strong>{role}</strong> <br />
+          Wallet: <small>{wallet}</small>
+        </p>
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          style={{ display: "block", margin: "1rem auto", width: "200px" }}
-        />
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            style={{ display: "block", margin: "1rem auto", width: "90%", padding: "0.5rem" }}
+          />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={{ display: "block", margin: "1rem auto", width: "200px" }}
-        />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={{ display: "block", margin: "1rem auto", width: "90%", padding: "0.5rem" }}
+          />
 
-        <button type="submit">Continue to Dashboard</button>
-      </form>
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={{ display: "block", margin: "1rem auto", width: "90%", padding: "0.5rem" }}
+          />
 
-      {error && <p className="error">{error}</p>}
+          <button
+            type="submit"
+            style={{
+              marginTop: "1rem",
+              padding: "0.5rem 1.5rem",
+              backgroundColor: "#007BFF",
+              color: "#fff",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+          >
+            Continue to Dashboard
+          </button>
+        </form>
 
-      <p style={{ marginTop: "1.5rem" }}>
-        Don't have an account?{" "}
-        <a href="/create-account" style={{ color: "#007BFF" }}>
-          Create one
-        </a>
-      </p>
+        {error && <p style={{ color: "red", marginTop: "1rem" }}>{error}</p>}
+
+        <p style={{ marginTop: "1.5rem" }}>
+          Don't have an account?{" "}
+          <a href="/create-account" style={{ color: "#007BFF" }}>
+            Create one
+          </a>
+        </p>
+      </div>
     </div>
   );
 }

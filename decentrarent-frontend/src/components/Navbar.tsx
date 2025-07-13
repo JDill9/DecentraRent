@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 
@@ -8,6 +8,16 @@ export default function Navbar() {
   const { cart } = useCart();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect whether we're on mobile to show the hamburger
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 768px)");
+    const onChange = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    setIsMobile(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -15,117 +25,95 @@ export default function Navbar() {
   };
 
   return (
-    <nav style={styles.navbar}>
-      <div style={styles.left}>
-        <h2 style={{ marginRight: "1rem" }}>DecentraRent</h2>
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          style={styles.hamburger}
-          className="hamburger"
-        >
-          ☰
-        </button>
-        <div
-          style={{
-            ...styles.links,
-            display: menuOpen ? "flex" : window.innerWidth > 768 ? "flex" : "none",
-          }}
-        >
-          <Link style={styles.link} to={role === "tenant" ? "/tenant" : "/landlord"}>
-            {role === "tenant" ? "Tenant Dashboard" : "Landlord Dashboard"}
-          </Link>
-          <Link style={styles.link} to="/payments">Payment Dashboard</Link>
-          <Link style={styles.link} to="/myleases">My Leases</Link>
-          <Link style={styles.link} to="/properties">Properties</Link>
-          <Link style={styles.link} to="/account">Account</Link>
-          <Link style={styles.link} to="/support">Support</Link>
-          <Link style={styles.link} to="/about">About</Link>
-        </div>
+    <nav className="navbar">
+      {/* Left side */}
+      <div className="nav-left">
+        <NavLink to="/" className="nav-logo">
+          DecentraRent
+        </NavLink>
+
+        {isMobile && (
+          <button
+            className="hamburger"
+            onClick={() => setMenuOpen((o) => !o)}
+          >
+            ☰
+          </button>
+        )}
+
+        {(menuOpen || !isMobile) && (
+          <div className="nav-links">
+            <NavLink
+              to={role === "tenant" ? "/tenant" : "/landlord"}
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
+            >
+              {role === "tenant" ? "Tenant Dashboard" : "Landlord Dashboard"}
+            </NavLink>
+            <NavLink
+              to="/payments"
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
+            >
+              Payment Dashboard
+            </NavLink>
+            <NavLink
+              to="/myleases"
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
+            >
+              My Leases
+            </NavLink>
+            <NavLink
+              to="/properties"
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
+            >
+              Properties
+            </NavLink>
+            <NavLink
+              to="/account"
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
+            >
+              Account
+            </NavLink>
+            <NavLink
+              to="/support"
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
+            >
+              Support
+            </NavLink>
+            <NavLink
+              to="/about"
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
+            >
+              About
+            </NavLink>
+          </div>
+        )}
       </div>
 
-      <div style={styles.right}>
-        <Link to="/checkout" style={{ ...styles.link, position: "relative" }}>
+      {/* Right side */}
+      <div className="nav-right">
+        <NavLink to="/checkout" className="cart-link">
           🛒
-          <span style={styles.cartBadge}>{cart.length}</span>
-        </Link>
-        <span style={{ fontSize: "0.9rem" }}>{user?.email}</span>
-        <button onClick={handleLogout} style={styles.logout}>Logout</button>
+          <span className="cart-badge">{cart.length}</span>
+        </NavLink>
+        <span className="nav-user">{user?.email}</span>
+        <button className="nav-logout" onClick={handleLogout}>
+          Logout
+        </button>
       </div>
     </nav>
   );
-}
-
-const styles: { [key: string]: React.CSSProperties } = {
-  navbar: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: 1000,
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#2b2b2b",
-    padding: "1rem 2rem",
-    color: "white",
-    flexWrap: "wrap",
-  },
-  left: {
-    display: "flex",
-    alignItems: "center",
-    flexWrap: "wrap",
-  },
-  hamburger: {
-    background: "none",
-    border: "none",
-    fontSize: "1.5rem",
-    color: "white",
-    display: "none",
-    cursor: "pointer",
-  },
-  links: {
-    display: "flex",
-    flexDirection: "row",
-    gap: "1rem",
-    flexWrap: "wrap",
-  },
-  right: {
-    display: "flex",
-    alignItems: "center",
-    gap: "1rem",
-    marginTop: "0.5rem",
-  },
-  link: {
-    color: "white",
-    textDecoration: "none",
-    fontWeight: "bold",
-    position: "relative",
-  },
-  logout: {
-    backgroundColor: "#f44336",
-    color: "white",
-    border: "none",
-    padding: "0.5rem 1rem",
-    cursor: "pointer",
-    borderRadius: "4px",
-  },
-  cartBadge: {
-    position: "absolute",
-    top: "-0.6rem",
-    right: "-0.7rem",
-    backgroundColor: "red",
-    color: "white",
-    borderRadius: "50%",
-    fontSize: "0.7rem",
-    padding: "0.15rem 0.4rem",
-  },
-};
-
-// Responsive hamburger visibility
-if (typeof window !== "undefined") {
-  const mq = window.matchMedia("(max-width: 768px)");
-  if (mq.matches) {
-    styles.hamburger.display = "inline";
-    styles.links.flexDirection = "column";
-  }
 }

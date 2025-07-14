@@ -142,7 +142,21 @@ Open your browser at the URL printed (e.g. `http://localhost:5173`).
 - You’ll be redirected to the respective dashboard.
 
 ---
+### Backend + Frontend Setup for Lease Email System
+🟡 1. Install packages (only once)
+In your backend folder (e.g., cd backend): run (npm install)
+This installs:
+	•	express
+	•	nodemailer
+	•	cors
+	•	dotenv
+ 🟢 2. Start the backend server
+ Still inside the backend folder: run (node server.js)
+ You should see:
+ 🚀 Server running on port 4000
 
+(If you see a warning about “ES modules”, no worries. Optional fix:
+	•	Add "type": "module" to your package.json (under the "name") )
 ## Project Scripts
 
 | Command                                         | Description                                             |

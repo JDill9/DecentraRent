@@ -148,7 +148,8 @@ Open your browser at the URL printed (e.g. `http://localhost:5173`).
 
 In your backend folder (e.g., cd backend):
 
-```npm install
+```
+npm install
 ```
 
 This installs:
@@ -160,11 +161,13 @@ This installs:
  🟢 2. Start the backend server
  
  Still inside the backend folder: 
- ```node server.js
+ ```
+node server.js
 ```
  
  You should see:
- ```🚀 Server running on port 4000
+ ```
+🚀 Server running on port 4000
 ```
 
 (If you see a warning about “ES modules”, no worries. Optional fix:
